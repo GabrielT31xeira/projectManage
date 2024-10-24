@@ -1,0 +1,42 @@
+﻿@model projectManage.Models.User
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="d-flex justify-content-center">
+        <div class="col-md-3">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div id="successAlert" class="alert alert-success shadow-lg  mb-5 bg-body rounded" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            <div class="mb-3 text-start">
+                @Html.LabelFor(m => m.email, htmlAttributes: new { @class = "form-label fs-3" })
+                @Html.TextBoxFor(m => m.email, new { @class = "form-control w-100" })
+                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger fs-4" })
+            </div>
+
+            <div class="mb-3 text-start">
+                @Html.LabelFor(m => m.senha, htmlAttributes: new { @class = "form-label fs-3" })
+                @Html.PasswordFor(m => m.senha, new { @class = "form-control w-100" })
+                @Html.ValidationMessageFor(model => model.senha, "", new { @class = "text-danger fs-4" })
+            </div>
+            <div class="d-flex justify-content-center">
+                <a type="button" class="btn btn-secondary me-2 fs-4" href="/">Voltar</a>
+                <button type="submit" class="btn btn-primary fs-4">Entrar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                var successAlert = document.getElementById('successAlert');
+                if (successAlert) {
+                    successAlert.style.display = 'none';
+                }
+            }, 5000);
+        };
+    </script>
+}
