@@ -7,13 +7,13 @@ namespace projectManage.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddEmailConfirmation : IMigrationMetadata
+    public sealed partial class UpdateDatabaseSchema : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddEmailConfirmation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateDatabaseSchema));
         
         string IMigrationMetadata.Id
         {
-            get { return "202410242008432_AddEmailConfirmation"; }
+            get { return "202410291804312_UpdateDatabaseSchema"; }
         }
         
         string IMigrationMetadata.Source

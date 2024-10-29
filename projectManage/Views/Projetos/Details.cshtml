@@ -1,0 +1,37 @@
+﻿@model projectManage.Models.Projeto
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<div class="container mt-5">
+    <div class="card w-50 mx-auto shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-primary">Detalhes do Projeto</h2>
+            <div class="mt-4">
+                <h4 class="text-center">@Model.Nome</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nome)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Descricao)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
+
+                    <dt class="col-sm-4">Data de Início</dt>
+                    <dd class="col-sm-8">@Model.DataInicio.ToString("dd/MM/yyyy")</dd>
+
+                    <dt class="col-sm-4">Data de Término</dt>
+                    <dd class="col-sm-8">@Model.DataFim.ToString("dd/MM/yyyy")</dd>
+                </dl>
+            </div>
+
+            <div class="form-actions mt-4 text-center">
+                @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning btn-sm mx-1" })
+                @Html.ActionLink("Voltar para a Lista", "Index", null, new { @class = "btn btn-secondary btn-sm mx-1" })
+            </div>
+        </div>
+    </div>
+</div>

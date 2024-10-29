@@ -11,107 +11,107 @@ using projectManage.Models;
 
 namespace projectManage.Controllers
 {
-    public class UsersController : Controller
+    public class ProjetosController : Controller
     {
         private AddDbContext db = new AddDbContext();
 
-        // GET: Users
+        // GET: Projetos
         public ActionResult Index()
         {
-            return View(db.Usuario.ToList());
+            return View(db.Projetos.ToList());
         }
 
-        // GET: Users/Details/5
+        // GET: Projetos/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario user = db.Usuario.Find(id);
-            if (user == null)
+            Projeto projeto = db.Projetos.Find(id);
+            if (projeto == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(projeto);
         }
 
-        // GET: Users/Create
+        // GET: Projetos/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Projetos/Create
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,PrimeiroNome,email,senha")] Usuario user)
+        public ActionResult Create([Bind(Include = "Id,Nome,Descricao,DataInicio,DataFim")] Projeto projeto)
         {
             if (ModelState.IsValid)
             {
-                db.Usuario.Add(user);
+                db.Projetos.Add(projeto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(user);
+            return View(projeto);
         }
 
-        // GET: Users/Edit/5
+        // GET: Projetos/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario user = db.Usuario.Find(id);
-            if (user == null)
+            Projeto projeto = db.Projetos.Find(id);
+            if (projeto == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(projeto);
         }
 
-        // POST: Users/Edit/5
+        // POST: Projetos/Edit/5
         // Para proteger-se contra ataques de excesso de postagem, ative as propriedades específicas às quais deseja se associar. 
         // Para obter mais detalhes, confira https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,PrimeiroNome,email,senha")] Usuario user)
+        public ActionResult Edit([Bind(Include = "Id,Nome,Descricao,DataInicio,DataFim")] Projeto projeto)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Entry(projeto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(user);
+            return View(projeto);
         }
 
-        // GET: Users/Delete/5
+        // GET: Projetos/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Usuario user = db.Usuario.Find(id);
-            if (user == null)
+            Projeto projeto = db.Projetos.Find(id);
+            if (projeto == null)
             {
                 return HttpNotFound();
             }
-            return View(user);
+            return View(projeto);
         }
 
-        // POST: Users/Delete/5
+        // POST: Projetos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Usuario user = db.Usuario.Find(id);
-            db.Usuario.Remove(user);
+            Projeto projeto = db.Projetos.Find(id);
+            db.Projetos.Remove(projeto);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

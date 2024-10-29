@@ -2,16 +2,19 @@
 using projectManage.Models;
 using projectManage.Services;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace projectManage.Controllers
 {
     public class AccountController : Controller
     {
-        private AppDbContext db = new AppDbContext();
+        private AddDbContext db = new AddDbContext();
 
 
         public static string passwordGenerator(string password)
@@ -40,7 +43,7 @@ namespace projectManage.Controllers
 
         public ActionResult ConfirmEmail(string token)
         {
-            var user = db.Users.FirstOrDefault(u => u.ConfirmationToken == token);
+            var user = db.Usuario.FirstOrDefault(u => u.ConfirmationToken == token);
             if (user != null)
             {
                 user.IsEmailConfirmed = true;
@@ -54,24 +57,32 @@ namespace projectManage.Controllers
         }
 
         // GET: Account
+        [HttpGet]
         public ActionResult Register()
         {
             {
-                ViewBag.Profiles = new SelectList(new[] { "Gerente", "Membro"});
+                ViewBag.Profiles = new SelectList(new[] { "Gerente", "Membro" });
                 return View();
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User model)
+        public ActionResult Register(Usuario model)
         {
+            var user = db.Usuario.FirstOrDefault(u => u.email == model.email);
+            if (user != null)
+            {
+                TempData["ErrorMessage"] = "Email já em uso.";
+                ViewBag.Profiles = new SelectList(new[] { "Gerente", "Membro" });
+                return View(model);
+            }
             if (ModelState.IsValid)
             {
                 model.senha = passwordGenerator(model.senha);
                 model.ConfirmationToken = GenerateToken();
                 model.IsEmailConfirmed = false;
-                db.Users.Add(model);
+                db.Usuario.Add(model);
                 db.SaveChanges();
                 TempData["SuccessMessage"] = "Usuário criado com sucesso! Verifique seu e-mail para confirmar a conta.";
                 SendConfirmationEmail(model);
@@ -82,6 +93,7 @@ namespace projectManage.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult Login()
         {
             {
@@ -89,7 +101,7 @@ namespace projectManage.Controllers
             }
         }
 
-        public void SendConfirmationEmail(User user)
+        public void SendConfirmationEmail(Usuario user)
         {
             var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token = user.ConfirmationToken }, protocol: Request.Url.Scheme);
             string subject = "Confirmação de E-mail";
@@ -102,12 +114,12 @@ namespace projectManage.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(User model)
+        public ActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 string hashedPassword = passwordGenerator(model.senha);
-                var user = db.Users.FirstOrDefault(u => u.email == model.email && u.senha == hashedPassword);
+                var user = db.Usuario.FirstOrDefault(u => u.email == model.email && u.senha == hashedPassword);
                 if (user != null)
                 {
                     if (!user.IsEmailConfirmed)
@@ -115,14 +127,46 @@ namespace projectManage.Controllers
                         ModelState.AddModelError("", "E-mail não confirmado. Verifique seu e-mail.");
                         return View(model);
                     }
-                    return RedirectToAction("Index", "Home");
+
+                    // Configurar o cookie de autenticação
+                    FormsAuthentication.SetAuthCookie(user.email, false);
+                    var authTicket = new FormsAuthenticationTicket(
+                        1, user.email, DateTime.Now, DateTime.Now.AddMinutes(30), false, user.profile);
+                    string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                    var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+                    HttpContext.Response.Cookies.Add(authCookie);
+
+                    if (user.profile == "Gerente")
+                    {
+                        return RedirectToAction("Index", "Gerente");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Membro");
+                    }
                 }
                 else
                 {
                     ModelState.AddModelError("", "Nome de usuário ou senha inválidos.");
                 }
             }
+
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Debug.WriteLine($"Erro: {error.ErrorMessage}");
+            }
+
             return View(model);
+        }
+
+        // Ação de Logout
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            return RedirectToAction("Login", "Account");
+
         }
     }
 }

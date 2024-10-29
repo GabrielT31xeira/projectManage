@@ -1,0 +1,42 @@
+﻿@model projectManage.Models.Projeto
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="container mt-5">
+    <div class="card w-50 mx-auto shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-danger">Excluir Projeto</h2>
+            <h5 class="text-center">Você tem certeza que deseja excluir este projeto?</h5>
+            <div class="mt-4">
+                <h4>Detalhes do Projeto</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nome)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Nome)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Descricao)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Descricao)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DataInicio)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.DataInicio)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.DataFim)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.DataFim)</dd>
+                </dl>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-actions mt-4 text-center">
+                    <input type="submit" value="Excluir" class="btn btn-danger" />
+                    @Html.ActionLink("Voltar para a Lista", "Index", null, new { @class = "btn btn-secondary ms-2" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
