@@ -3,15 +3,15 @@
     Layout = "~/Views/Shared/_LayoutGerente.cshtml";
 }
 @{
-    ViewBag.Title = "Detalhes";
+    ViewBag.Title = "Detalhes do Projeto";
 }
 
 <div class="container mt-5">
-    <div class="card w-50 mx-auto shadow-lg">
+    <div class="card w-75 mx-auto shadow-lg">
         <div class="card-body">
             <h2 class="text-center text-primary">Detalhes do Projeto</h2>
             <div class="mt-4">
-                <h4 class="text-center">@Model.Nome</h4>
+                <h4>@Model.Nome</h4>
                 <hr />
                 <dl class="row">
                     <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Nome)</dt>
@@ -26,6 +26,87 @@
                     <dt class="col-sm-4">Data de Término</dt>
                     <dd class="col-sm-8">@Model.DataFim.ToString("dd/MM/yyyy")</dd>
                 </dl>
+                <hr />
+                <h4>Usuários Associados</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Perfil</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="table-warning">
+                            <td>@Model.Dono.nome (Dono)</td>
+                            <td>@Model.Dono.email</td>
+                            <td>@Model.Dono.profile</td>
+                            <td></td>
+                        </tr>
+                        @foreach (var usuario in Model.Usuarios)
+                        {
+                            <tr>
+                                <td>@usuario.nome</td>
+                                <td>@usuario.email</td>
+                                <td>@usuario.profile</td>
+                                <td>
+                                    @using (Html.BeginForm("RemoverUsuario", "Projeto", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("projetoId", Model.Id)
+                                        @Html.Hidden("usuarioId", usuario.Id)
+                                        <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <hr />
+                <h4>Tarefas Associadas</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Data de Início</th>
+                            <th>Data de Término</th>
+                            <th>Status</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tarefa in Model.Tarefas)
+                        {
+                            <tr>
+                                <td>@tarefa.Nome</td>
+                                <td>@tarefa.Descricao</td>
+                                <td>@tarefa.DataInicio.ToString("dd/MM/yyyy")</td>
+                                <td>@tarefa.DataFim.ToString("dd/MM/yyyy")</td>
+                                <td>@tarefa.Status</td>
+                                <td>
+                                    @Html.ActionLink("Detalhes", "DetailsTarefa", new { tarefaId = tarefa.Id }, new { @class = "btn btn-info btn-sm mx-1" })
+                                    @if (User.IsInRole("Gerente"))
+                                    {
+                                        Html.EndForm();
+                                        @Html.ActionLink("Editar", "EditTarefa", new { id = tarefa.Id }, new { @class = "btn btn-warning btn-sm" })
+                                        Html.BeginForm("RemoverTarefa", "Projeto", FormMethod.Post);
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.Hidden("tarefaId", tarefa.Id)
+                                            <button type="submit" class="btn btn-danger btn-sm m-1">Remover</button>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                         }
+                    </tbody>
+                </table>
+
+                <div class="form-actions mt-4 text-center">
+                    @Html.ActionLink("Criar Tarefa", "CriarTarefa", new { projetoId = Model.Id }, new { @class = "btn btn-success btn-sm mx-1" })
+                </div>
             </div>
 
             <div class="form-actions mt-4 text-center">

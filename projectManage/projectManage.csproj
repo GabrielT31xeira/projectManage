@@ -279,10 +279,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EquipesController.cs" />
     <Compile Include="Controllers\GerenteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembroController.cs" />
     <Compile Include="Controllers\ProjetosController.cs" />
+    <Compile Include="Controllers\TarefaController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\AddDbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -292,10 +294,27 @@
     <Compile Include="Migrations\202410291804312_UpdateDatabaseSchema.designer.cs">
       <DependentUpon>202410291804312_UpdateDatabaseSchema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202410301517155_AddDonoToProjeto.cs" />
+    <Compile Include="Migrations\202410301517155_AddDonoToProjeto.designer.cs">
+      <DependentUpon>202410301517155_AddDonoToProjeto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410311749182_UpdateTarefaValidations.cs" />
+    <Compile Include="Migrations\202410311749182_UpdateTarefaValidations.designer.cs">
+      <DependentUpon>202410311749182_UpdateTarefaValidations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410311854041_UpdateArquivoValidations.cs" />
+    <Compile Include="Migrations\202410311854041_UpdateArquivoValidations.designer.cs">
+      <DependentUpon>202410311854041_UpdateArquivoValidations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410312118521_UpdateComentarioValidations.cs" />
+    <Compile Include="Migrations\202410312118521_UpdateComentarioValidations.designer.cs">
+      <DependentUpon>202410312118521_UpdateComentarioValidations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arquivo.cs" />
     <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Equipe.cs" />
+    <Compile Include="Models\EquipeViewModel.cs" />
     <Compile Include="Models\LoginViewModel .cs" />
     <Compile Include="Models\Projeto.cs" />
     <Compile Include="Models\Tarefa.cs" />
@@ -391,6 +410,15 @@
     <Content Include="Views\Projetos\Details.cshtml" />
     <Content Include="Views\Projetos\Edit.cshtml" />
     <Content Include="Views\Projetos\Index.cshtml" />
+    <Content Include="Views\Equipes\Create.cshtml" />
+    <Content Include="Views\Equipes\Delete.cshtml" />
+    <Content Include="Views\Equipes\Details.cshtml" />
+    <Content Include="Views\Equipes\Edit.cshtml" />
+    <Content Include="Views\Equipes\Index.cshtml" />
+    <Content Include="Views\Projetos\CriarTarefa.cshtml" />
+    <Content Include="Views\Projetos\DetailsTarefa.cshtml" />
+    <Content Include="Views\Tarefa\CriarArquivo.cshtml" />
+    <Content Include="Views\Tarefa\CriarComentario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -403,6 +431,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202410291804312_UpdateDatabaseSchema.resx">
       <DependentUpon>202410291804312_UpdateDatabaseSchema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410301517155_AddDonoToProjeto.resx">
+      <DependentUpon>202410301517155_AddDonoToProjeto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410311749182_UpdateTarefaValidations.resx">
+      <DependentUpon>202410311749182_UpdateTarefaValidations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410311854041_UpdateArquivoValidations.resx">
+      <DependentUpon>202410311854041_UpdateArquivoValidations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410312118521_UpdateComentarioValidations.resx">
+      <DependentUpon>202410312118521_UpdateComentarioValidations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

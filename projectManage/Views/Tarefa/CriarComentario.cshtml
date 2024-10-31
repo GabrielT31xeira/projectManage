@@ -1,0 +1,38 @@
+﻿@model projectManage.Models.Comentario
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+@{
+    ViewBag.Title = "Criar Comentário";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+    <div class="card w-50 shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-primary">Criar Comentário</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                @Html.HiddenFor(model => model.TarefaId)
+                @Html.HiddenFor(model => model.Data)
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.Texto, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.Texto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Texto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-8 offset-sm-2 d-flex justify-content-center">
+                        <input type="submit" value="Criar" class="btn btn-primary" />
+                        @Html.ActionLink("Voltar à Tarefa", "DetailsTarefa", "Projetos", new { tarefaId = Model.TarefaId }, new { @class = "btn btn-secondary ms-2" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

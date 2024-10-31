@@ -8,6 +8,20 @@
 
 <div class="container mt-5">
     <h2 class="text-center">Meus Projetos</h2>
+    <div class="container mb-3">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="successAlert" class="alert alert-success shadow-lg  mb-5 bg-body rounded" role="alert">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div id="errorAlert" class="alert alert-danger shadow mb-5 bg-body rounded" role="alert">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+    </div>
     <p>
         @Html.ActionLink("Criar novo projeto", "Create", null, new { @class = "btn btn-success mb-3" })
     </p>

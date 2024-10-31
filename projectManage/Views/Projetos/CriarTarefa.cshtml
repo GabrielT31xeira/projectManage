@@ -1,0 +1,69 @@
+﻿@model projectManage.Models.Tarefa
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+@{
+    ViewBag.Title = "Criar Tarefa";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+    <div class="card w-50 shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center">Criar Tarefa</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+                @Html.HiddenFor(model => model.ProjetoId)
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.DataInicio, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.DataInicio, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.DataFim, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.DataFim, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DataFim, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "col-sm-4 col-form-label" })
+                    <div class="col-sm-8">
+                        @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-8 offset-sm-2 d-flex justify-content-center">
+                        <input type="submit" value="Criar" class="btn btn-primary" />
+                        @Html.ActionLink("Voltar", "Details", new { id = Model.ProjetoId }, new { @class = "btn btn-secondary ms-2" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

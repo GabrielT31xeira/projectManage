@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -35,6 +36,10 @@ namespace projectManage.Models
 
         // Relacionamento 1:N com Tarefa
         public virtual ICollection<Tarefa> Tarefas { get; set; }
+
+        public int DonoId { get; set; }
+        [ForeignKey("DonoId")]
+        public virtual Usuario Dono { get; set; }
 
         // Relacionamento N:N com Usuario
         public virtual ICollection<Usuario> Usuarios { get; set; }

@@ -1,0 +1,114 @@
+﻿@model projectManage.Models.Tarefa
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+@{
+    ViewBag.Title = "Detalhes da Tarefa";
+}
+
+<div class="container mt-5">
+    <div class="card w-50 mx-auto shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-primary">Detalhes da Tarefa</h2>
+            <div class="mt-4">
+                <h4>@Model.Nome</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-4">Nome</dt>
+                    <dd class="col-sm-8">@Model.Nome</dd>
+
+                    <dt class="col-sm-4">Descrição</dt>
+                    <dd class="col-sm-8">@Model.Descricao</dd>
+
+                    <dt class="col-sm-4">Data de Início</dt>
+                    <dd class="col-sm-8">@Model.DataInicio.ToString("dd/MM/yyyy")</dd>
+
+                    <dt class="col-sm-4">Data de Término</dt>
+                    <dd class="col-sm-8">@Model.DataFim.ToString("dd/MM/yyyy")</dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">@Model.Status</dd>
+                </dl>
+                <hr />
+                <h4>Arquivos</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Caminho</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var arquivo in Model.Arquivos)
+                        {
+                            <tr>
+                                <td>@arquivo.Nome</td>
+                                <td>@arquivo.Caminho</td>
+                                <td>
+                                    @if (User.IsInRole("Gerente"))
+                                    {
+                                        <div>
+                                            @using (Html.BeginForm("RemoverArquivo", "Projeto", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("tarefaId", Model.Id)
+                                                @Html.Hidden("arquivoId", arquivo.Id)
+                                                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-actions mt-4 text-center">
+                    @Html.ActionLink("Adicionar Arquivo", "CriarArquivo", new { tarefaId = Model.Id }, new { @class = "btn btn-success btn-sm mx-1" })
+                </div>
+                <hr />
+                <h4>Comentários</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Texto</th>
+                            <th>Data</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var comentario in Model.Comentarios)
+                        {
+                            <tr>
+                                <td>@comentario.Texto</td>
+                                <td>@comentario.Data.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (User.IsInRole("Gerente"))
+                                    {
+                                        <div>
+                                            @using (Html.BeginForm("RemoverComentario", "Tarefa", FormMethod.Post))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("tarefaId", Model.Id)
+                                                @Html.Hidden("comentarioId", comentario.Id)
+                                                <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                                            }
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-actions mt-4 text-center">
+                    @Html.ActionLink("Adicionar Comentário", "CriarComentario", "Tarefa", new { tarefaId = Model.Id }, new { @class = "btn btn-success btn-sm mx-1" })
+                </div>
+            </div>
+
+            <div class="form-actions mt-4 text-center">
+                @Html.ActionLink("Editar", "EditTarefa", new { id = Model.Id }, new { @class = "btn btn-warning btn-sm mx-1" })
+                @Html.ActionLink("Voltar ao Projeto", "Details", new { id = Model.ProjetoId }, new { @class = "btn btn-secondary btn-sm mx-1" })
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@model projectManage.Models.EquipeViewModel
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Equipes</h2>
+
+<p class="mt-4">
+    @Html.ActionLink("Criar Novo", "Create", null, new { @class = "btn btn-success mb-3" })
+</p>
+
+<div class="container mt-5">
+    <h2>Minhas Equipes</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var equipe in Model.MinhasEquipes)
+            {
+                <tr>
+                    <td>@equipe.Nome</td>
+                    <td>
+                        @Html.ActionLink("Visualizar", "Details", new { id = equipe.Id }, new { @class = "btn btn-info btn-sm" })
+                        @using (Html.BeginForm("SairDaEquipe", "Equipes", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", equipe.Id)
+                            <button type="submit" class="btn btn-danger btn-sm mt-2">Sair</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2>Outras Equipes</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var equipe in Model.OutrasEquipes)
+            {
+                <tr>
+                    <td>@equipe.Nome</td>
+                    <td>
+                        @Html.ActionLink("Visualizar", "Details", new { id = equipe.Id }, new { @class = "btn btn-info btn-sm" })
+                        @using (Html.BeginForm("EntrarNaEquipe", "Equipes", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", equipe.Id)
+                            <button type="submit" class="btn btn-success btn-sm mt-2">Entrar</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,55 @@
+﻿@model projectManage.Models.Equipe
+@{
+    Layout = "~/Views/Shared/_LayoutGerente.cshtml";
+    ViewBag.Title = "Detalhes da Equipe";
+}
+
+<div class="container mt-5">
+    <div class="card w-75 mx-auto shadow-lg">
+        <div class="card-body">
+            <h2 class="text-center text-primary">Detalhes da Equipe</h2>
+            <div class="mt-4">
+                <h4>@Model.Nome</h4>
+                <hr />
+                <h4>Usuários na Equipe</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Perfil</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var usuario in Model.Usuarios)
+                        {
+                            <tr>
+                                <td>@usuario.nome</td>
+                                <td>@usuario.email</td>
+                                <td>@usuario.profile</td>
+                                <td>
+                                    @if (User.IsInRole("Gerente"))
+                                                {
+                                                    Html.BeginForm("RemoverUsuario", "Equipes", FormMethod.Post, new { id = usuario.Id });
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("equipeId", Model.Id)
+                                                        @Html.Hidden("usuarioId", usuario.Id)
+                                                        <button type = "submit" class="btn btn-danger btn-sm">Remover</button>
+                                                    }
+                                        Html.EndForm();
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-actions mt-4 text-center">
+                @Html.ActionLink("Voltar para a Lista", "Index", null, new { @class = "btn btn-secondary btn-sm mx-1" })
+            </div>
+        </div>
+    </div>
+</div>
