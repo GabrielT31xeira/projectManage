@@ -9,24 +9,24 @@
 <div class="container mt-5">
     <div class="card w-50 mx-auto shadow-lg">
         <div class="card-body">
-            <h2 class="text-center text-primary">Detalhes da Tarefa</h2>
+            <h2 class="text-center">Detalhes da Tarefa</h2>
             <div class="mt-4">
                 <h4>@Model.Nome</h4>
                 <hr />
                 <dl class="row">
-                    <dt class="col-sm-4">Nome</dt>
+                    <dt class="col-sm-4">Nome:</dt>
                     <dd class="col-sm-8">@Model.Nome</dd>
 
-                    <dt class="col-sm-4">Descrição</dt>
+                    <dt class="col-sm-4">Descrição:</dt>
                     <dd class="col-sm-8">@Model.Descricao</dd>
 
-                    <dt class="col-sm-4">Data de Início</dt>
+                    <dt class="col-sm-4">Data de Início:</dt>
                     <dd class="col-sm-8">@Model.DataInicio.ToString("dd/MM/yyyy")</dd>
 
-                    <dt class="col-sm-4">Data de Término</dt>
+                    <dt class="col-sm-4">Data de Término: </dt>
                     <dd class="col-sm-8">@Model.DataFim.ToString("dd/MM/yyyy")</dd>
 
-                    <dt class="col-sm-4">Status</dt>
+                    <dt class="col-sm-4">Status:</dt>
                     <dd class="col-sm-8">@Model.Status</dd>
                 </dl>
                 <hr />
@@ -49,7 +49,7 @@
                                     @if (User.IsInRole("Gerente"))
                                     {
                                         <div>
-                                            @using (Html.BeginForm("RemoverArquivo", "Projeto", FormMethod.Post))
+                                            @using (Html.BeginForm("RemoverArquivo", "Projetos", FormMethod.Post))
                                             {
                                                 @Html.AntiForgeryToken()
                                                 @Html.Hidden("tarefaId", Model.Id)
@@ -106,7 +106,6 @@
             </div>
 
             <div class="form-actions mt-4 text-center">
-                @Html.ActionLink("Editar", "EditTarefa", new { id = Model.Id }, new { @class = "btn btn-warning btn-sm mx-1" })
                 @Html.ActionLink("Voltar ao Projeto", "Details", new { id = Model.ProjetoId }, new { @class = "btn btn-secondary btn-sm mx-1" })
             </div>
         </div>

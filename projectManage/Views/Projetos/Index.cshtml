@@ -3,11 +3,11 @@
     Layout = "~/Views/Shared/_LayoutGerente.cshtml";
 }
 @{
-    ViewBag.Title = "Meus projetos";
+    ViewBag.Title = "Todos os Projetos";
 }
 
 <div class="container mt-5">
-    <h2 class="text-center">Meus Projetos</h2>
+    <h2 class="text-center">Todos os Projetos</h2>
     <div class="container mb-3">
         @if (TempData["SuccessMessage"] != null)
         {
@@ -23,7 +23,10 @@
         }
     </div>
     <p>
-        @Html.ActionLink("Criar novo projeto", "Create", null, new { @class = "btn btn-success mb-3" })
+        @if (User.IsInRole("Gerente"))
+        { 
+            @Html.ActionLink("Criar novo projeto", "Create", null, new { @class = "btn btn-success mb-3" })
+        }
     </p>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var item in Model)
@@ -39,9 +42,18 @@
                         </p>
                     </div>
                     <div class="card-footer text-center">
-                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm mx-1" })
                         @Html.ActionLink("Detalhes", "Details", new { id = item.Id }, new { @class = "btn btn-info btn-sm mx-1" })
-                        @Html.ActionLink("Apagar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm mx-1" })
+                        @using (Html.BeginForm("EntrarNoProjeto", "Projetos", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("projetoId", item.Id)
+                            <button type="submit" class="btn btn-success btn-sm">Entrar</button>
+                        }
+                        @if (User.IsInRole("Gerente"))
+                        {
+                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }, new { @class = "btn btn-warning btn-sm mx-1" })
+                            @Html.ActionLink("Apagar", "Delete", new { id = item.Id }, new { @class = "btn btn-danger btn-sm mx-1" })
+                        }
                     </div>
                 </div>
             </div>

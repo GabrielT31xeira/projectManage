@@ -213,5 +213,22 @@ namespace projectManage.Controllers
             return RedirectToAction("DetailsTarefa", new { tarefaId = tarefaId });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EntrarNoProjeto(int projetoId)
+        {
+            var usuarioAutenticado = db.Usuario.FirstOrDefault(u => u.email == User.Identity.Name);
+            var userId = usuarioAutenticado.Id;
+            var projeto = db.Projetos.Include(p => p.Usuarios).FirstOrDefault(p => p.Id == projetoId);
+            var usuario = db.Usuario.Find(userId);
+
+            if (projeto != null && usuario != null && !projeto.Usuarios.Contains(usuario))
+            {
+                projeto.Usuarios.Add(usuario);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Details", new { id = projetoId });
+        }
     }
 }

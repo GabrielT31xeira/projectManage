@@ -10,8 +10,11 @@
 <h2>Equipes</h2>
 
 <p class="mt-4">
-    @Html.ActionLink("Criar Novo", "Create", null, new { @class = "btn btn-success mb-3" })
-</p>
+    @if (User.IsInRole("Gerente"))
+    {
+        @Html.ActionLink("Criar Novo", "Create", null, new { @class = "btn btn-success mb-3" })
+    }
+    </p>
 
 <div class="container mt-5">
     <h2>Minhas Equipes</h2>
