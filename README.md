@@ -31,3 +31,9 @@ Este é um sistema de gerenciamento de projetos desenvolvido em ASP.NET MVC. Ele
 
 2. UML
    ![UML](uml.jpg)
+
+3. Configurando o mailtrap
+   Criar conta no mailtrap e usar as credenciais de login e senha criadas.
+   ![UML](mailtrap.jpg)
+
+   e substitui-las no arquivo "projectManage/projectManage/Controllers/AccountController.cs" na função "SendConfirmationEmail"
