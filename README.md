@@ -29,11 +29,20 @@ Este é um sistema de gerenciamento de projetos desenvolvido em ASP.NET MVC. Ele
    ```bash
    git clone https://github.com/seu-usuario/project-manager.git
 
-2. UML
+2. Depois de entrar no projeto 
+   ```bash
+   Update-Package -reinstall
+
+3. Criar o banco de dados
+   ```bash
+   Update-Database
+   
+4. UML
    ![UML](uml.jpg)
 
-3. Configurando o mailtrap
+5. Configurando o mailtrap
    Criar conta no mailtrap e usar as credenciais de login e senha criadas.
    ![UML](mailtrap.jpg)
 
    e substitui-las no arquivo "projectManage/projectManage/Controllers/AccountController.cs" na função "SendConfirmationEmail"
+
